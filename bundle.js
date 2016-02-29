@@ -33054,12 +33054,14 @@ var Balloon = (function (_React$Component) {
       prefix: _react2['default'].PropTypes.string,
       showOnHover: _react2['default'].PropTypes.bool,
       showOnHoverDelay: _react2['default'].PropTypes.number,
+      dynamicPositioning: _react2['default'].PropTypes.bool,
       trigger: _react2['default'].PropTypes.element.isRequired
     },
     enumerable: true
   }, {
     key: 'defaultProps',
     value: {
+      dynamicPositioning: true,
       shadow: true,
       balloonPosition: 'bottom',
       unstyled: false,
@@ -33119,10 +33121,14 @@ var Balloon = (function (_React$Component) {
   };
 
   Balloon.prototype.changeVisibility = function changeVisibility(visibility) {
+    var _props = this.props;
+    var dynamicPositioning = _props.dynamicPositioning;
+    var unstyled = _props.unstyled;
+
     if (!visibility) {
       visibility = this.state.visibility === 'not-visible' ? 'visible' : 'not-visible';
     }
-    var position = visibility === 'visible' && this.props.unstyled === false ? this.calculatePosition(document.body.getBoundingClientRect().width, this.refs.balloon, this.refs.balloonContent) : {};
+    var position = visibility === 'visible' && unstyled === false && dynamicPositioning ? this.calculatePosition(document.body.getBoundingClientRect().width, this.refs.balloon, this.refs.balloonContent) : {};
     this.setState({
       visibility: visibility,
       position: position
@@ -33132,9 +33138,9 @@ var Balloon = (function (_React$Component) {
   Balloon.prototype.render = function render() {
     var _classNames;
 
-    var _props = this.props;
-    var trigger = _props.trigger;
-    var className = _props.className;
+    var _props2 = this.props;
+    var trigger = _props2.trigger;
+    var className = _props2.className;
     var TriggerLink = trigger.type;
     var triggerClassName = trigger.className;
     var triggerProps = trigger.props;
