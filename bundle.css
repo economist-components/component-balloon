@@ -213,11 +213,11 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.19), 0 6px 10px rgba(0, 0, 0, 0.23);
 }
 
-.balloon--not-visible .balloon__link:after {
+.balloon--not-visible .balloon__link::after {
   display: none;
 }
 
-.balloon--visible .balloon__link:after {
+.balloon--visible .balloon__link::after {
   display: block;
 }
 
