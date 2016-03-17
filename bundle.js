@@ -1368,6 +1368,11 @@ module.exports = I13nUtils;
 
 var React = require('react');
 var subscribe = require('subscribe-ui-event').subscribe;
+var DEFAULT_VIEWPORT_MARGINS = {
+    usePercent: false,
+    top: 20,
+    bottom: 20
+};
 
 /* Viewport mixin assumes you are on browser and already have the scroll lib */
 var Viewport = {
@@ -1391,7 +1396,8 @@ var Viewport = {
             return callback && callback();
         }
         var rect = element.getBoundingClientRect();
-        var viewportMargins = this.props.viewport.margins;
+        var viewportMargins = Object.assign({}, DEFAULT_VIEWPORT_MARGINS, 
+            (this.props.viewport && this.props.viewport.margins) || {});
         var margins;
         if (viewportMargins.usePercent) {
             margins = {
@@ -1415,18 +1421,6 @@ var Viewport = {
         }
         self._detectElement(self._i13nNode, self.enterViewportCallback, callback);
         self._subComponentsViewportDetection && self._subComponentsViewportDetection();
-    },
-
-    getDefaultProps: function () {
-        return {
-            viewport: {
-                margins: {
-                    usePercent: false,
-                    top: 20,
-                    bottom: 20
-                }
-            }
-        };
     },
 
     subscribeViewportEvents: function () {
@@ -1786,7 +1780,6 @@ module.exports = function createI13nNode (Component, defaultProps, options) {
          */
         getDefaultProps: function () {
             return Object.assign({}, {
-                model: null,
                 i13nModel: null,
                 isLeafNode: false,
                 bindClickEvent: false,
@@ -1812,9 +1805,7 @@ module.exports = function createI13nNode (Component, defaultProps, options) {
             }
 
             // delete the props that only used in this level
-            props.model = undefined;
             props.i13nModel = undefined;
-            props.viewport = undefined;
 
             return React.createElement(
                 Component,
@@ -3171,6 +3162,8 @@ if (typeof window !== 'undefined') {
 },{"./dist/lib/listen":26,"./dist/subscribe":29,"_process":73}],31:[function(require,module,exports){
 'use strict';
 
+var has = Object.prototype.hasOwnProperty;
+
 //
 // We store our EE objects in a plain object whose properties are event names.
 // If `Object.create(null)` is not supported we prefix the event names with a
@@ -3186,7 +3179,7 @@ var prefix = typeof Object.create !== 'function' ? '~' : false;
  *
  * @param {Function} fn Event handler to be called.
  * @param {Mixed} context Context for function execution.
- * @param {Boolean} once Only emit once
+ * @param {Boolean} [once=false] Only emit once
  * @api private
  */
 function EE(fn, context, once) {
@@ -3205,12 +3198,37 @@ function EE(fn, context, once) {
 function EventEmitter() { /* Nothing to set */ }
 
 /**
- * Holds the assigned EventEmitters by name.
+ * Hold the assigned EventEmitters by name.
  *
  * @type {Object}
  * @private
  */
 EventEmitter.prototype._events = undefined;
+
+/**
+ * Return an array listing the events for which the emitter has registered
+ * listeners.
+ *
+ * @returns {Array}
+ * @api public
+ */
+EventEmitter.prototype.eventNames = function eventNames() {
+  var events = this._events
+    , names = []
+    , name;
+
+  if (!events) return names;
+
+  for (name in events) {
+    if (has.call(events, name)) names.push(prefix ? name.slice(1) : name);
+  }
+
+  if (Object.getOwnPropertySymbols) {
+    return names.concat(Object.getOwnPropertySymbols(events));
+  }
+
+  return names;
+};
 
 /**
  * Return a list of assigned event listeners.
@@ -3297,8 +3315,8 @@ EventEmitter.prototype.emit = function emit(event, a1, a2, a3, a4, a5) {
  * Register a new EventListener for the given event.
  *
  * @param {String} event Name of the event.
- * @param {Functon} fn Callback function.
- * @param {Mixed} context The context of the function.
+ * @param {Function} fn Callback function.
+ * @param {Mixed} [context=this] The context of the function.
  * @api public
  */
 EventEmitter.prototype.on = function on(event, fn, context) {
@@ -3322,7 +3340,7 @@ EventEmitter.prototype.on = function on(event, fn, context) {
  *
  * @param {String} event Name of the event.
  * @param {Function} fn Callback function.
- * @param {Mixed} context The context of the function.
+ * @param {Mixed} [context=this] The context of the function.
  * @api public
  */
 EventEmitter.prototype.once = function once(event, fn, context) {
@@ -32330,7 +32348,7 @@ var Balloon = (function (_React$Component) {
     var contentClassNames = _classnames2['default'](balloonContentClassname, (_classNames = {}, _classNames[prefix + 'shadow'] = this.props.shadow, _classNames));
     var triangleElement = null;
     if (triangleShouldDisplay) {
-      triangleElement = _react2['default'].createElement('div', { className: 'balloon__triangle' });
+      triangleElement = _react2['default'].createElement('div', { className: 'balloon__triangle', style: { pointerEvents: 'none' } });
     }
     return _react2['default'].createElement(
       'div',
