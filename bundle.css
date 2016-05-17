@@ -1,5 +1,7 @@
-/* stylelint-disable custom-property-pattern, number-max-precision */
-
+/* stylelint-disable custom-property-pattern, number-max-precision, value-keyword-case */
+/* */
+/* stylelint-disable value-keyword-case */
+/* too many components refer to EconSans */
 @font-face {
   font-family: EconSans;
   font-weight: 300;
@@ -9,7 +11,6 @@
     /* Pretty Modern Browsers */
     url('/assets/ecosans-lig.woff') format('woff');
 }
-
 @font-face {
   font-family: EconSans;
   font-style: normal;
@@ -19,7 +20,6 @@
     /* Pretty Modern Browsers */
     url('/assets/ecosans-reg.woff') format('woff');
 }
-
 @font-face {
   font-family: EconSans;
   font-weight: 700;
@@ -29,7 +29,6 @@
     /* Pretty Modern Browsers */
     url('/assets/ecosans-bol.woff') format('woff');
 }
-
 @font-face {
   font-family: EconSans;
   font-style: italic;
@@ -39,7 +38,6 @@
     /* Pretty Modern Browsers */
     url('/assets/ecosans-ita.woff') format('woff');
 }
-
 @font-face {
   font-family: MiloSerifPro;
   font-style: normal;
@@ -49,7 +47,6 @@
     /* Pretty Modern Browsers */
     url('/assets/ecoserif-reg.woff') format('woff');
 }
-
 @font-face {
   font-family: MiloSerifPro;
   font-style: italic;
@@ -59,7 +56,6 @@
     /* Pretty Modern Browsers */
     url('/assets/ecoserif-ita.woff') format('woff');
 }
-
 @font-face {
   font-family: MiloSerifPro;
   font-weight: 500;
@@ -69,11 +65,9 @@
     /* Pretty Modern Browsers */
     url('/assets/ecoserif-med.woff') format('woff');
 }
-
 /**
  * Modular scale for type.
  */
-
 :root {
   /** Modular scale **/
   /* http://www.modularscale.com/?20&px&1.125&web&text */  /* Major second */
@@ -105,29 +99,27 @@
 
   /* Font: FF Milo Serif OT Medium */
 }
-
 /* stylelint-disable selector-no-type */
-
+/* setting base font size on html - no default selector */
 html {
   font-size: 18px;
   line-height: 1.35;
 }
-
 @media screen and (min-width: 500px) {
   html {
     font-size: 20px;
   }
 }
-
 body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
 }
-
 /**
  * Colors
  */
-
+/* stylelint-disable no-indistinguishable-colors */
+/* to pass linting against --color-thimphu --color-berlin */
+/* stylelint-enable no-indistinguishable-colors */
 .link-button--styled {
   display: inline-block;
   padding: 20px
@@ -145,41 +137,36 @@ body {
   background-color: #fff;
   border-radius: 0.3em;
 }
-
 .link-button--disabled {
   cursor: default;
   background-color: #c0c0c0;
 }
-
+/* stylelint-disable no-indistinguishable-colors */
+/* because that's the design */
 .link-button--shadow {
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
 }
-
+/* stylelint-enable no-indistinguishable-colors */
 /* stylelint-disable selector-no-type */
-
+/* because we won't know the class on the svg */
 .link-button__group svg {
   vertical-align: bottom;
 }
-
 /* stylelint-enable selector-no-type */
-
 .link-button__icon {
   vertical-align: middle;
 }
-
 /**
  * Css grid variables
  */
-
 /* stylelint-disable number-max-precision */
-
+/* More procision required! */
 .balloon {
   display: inline;
   position: relative;
   font-size: 18px;
   font-size: 1rem;
 }
-
 .balloon-content {
   box-sizing: border-box;
   position: absolute;
@@ -188,45 +175,38 @@ body {
   background: #f2f2f2;
   z-index: 1;
 }
-
 .balloon--position-bottom .balloon-content {
   top: 100%;
 }
-
 .balloon--position-top .balloon-content {
   bottom: 100%;
 }
-
+/* stylelint-disable no-indistinguishable-colors */
+/* It's just a drop shadow */
 .balloon--shadow {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.19), 0 6px 10px rgba(0, 0, 0, 0.23);
 }
-
+/* stylelint-enable no-indistinguishable-colors */
 .balloon--not-visible .balloon__link::after {
   display: none;
 }
-
 .balloon--visible .balloon__link::after {
   display: block;
 }
-
 .balloon--not-visible .balloon-content {
   visibility: hidden;
 }
-
 .balloon--visible .balloon-content {
   visibility: visible;
 }
-
 .balloon--position-bottom .balloon__triangle {
   bottom: 0;
 }
-
 .balloon--position-top .balloon__triangle {
   top: 0;
   -webkit-transform: rotate(180deg);
           transform: rotate(180deg);
 }
-
 .balloon__triangle {
   display: block;
   position: absolute;
@@ -239,7 +219,6 @@ body {
   border-width: 0 6px 6px 6px;
   z-index: 2;
 }
-
 .balloon-example {
   display: table-cell;
   box-sizing: border-box;
@@ -249,7 +228,6 @@ body {
   color: #fff;
   background-color: #383e42;
 }
-
 .balloon-link {
   padding: 10px;
   color: #fff;
@@ -257,16 +235,13 @@ body {
   background-color: #3e51b5;
   border: solid #fff 1px;
 }
-
 .balloon-content {
   width: 300px;
   color: #000;
 }
-
 .component-panel {
   overflow: hidden;
 }
-
 @media (max-width: 800px) {
   .no-mobile {
     display: none;
@@ -276,11 +251,9 @@ body {
     width: 100%;
   }
 }
-
 .right {
   text-align: right;
 }
-
 .custom-classname--not-visible .content {
   display: none;
 }
