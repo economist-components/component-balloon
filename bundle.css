@@ -225,6 +225,9 @@ body {
   font-size: 18px;
   font-size: 1rem;
 }
+.navigation__main-navigation--desktop .balloon-content:focus {
+  outline: none;
+}
 .balloon-content {
   box-sizing: border-box;
   position: absolute;
