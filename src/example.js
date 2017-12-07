@@ -1,6 +1,7 @@
 import Balloon from './';
 import Button from '@economist/component-link-button';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const exampleOneTrigger = (
   <a href="https://www.economist.com/user/login" className="balloon-link">
@@ -17,37 +18,62 @@ const exampleThreeTrigger = (
     Unstyled
   </Button>
 );
+export class ExternalControlledBalloon extends React.Component {
+  static propTypes = {
+    open: PropTypes.bool,
+  };
+  constructor(props) {
+    super();
+    this.state = {
+      open: props.open,
+    };
+    this.handleHideBalloon = this.handleHideBalloon.bind(this);
+  }
+
+  handleHideBalloon() {
+    this.setState({
+      open: !this.state.open,
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <a href="#" onClick={this.handleHideBalloon}>
+          External controller link
+        </a>
+        <Balloon unstyled balloonPosition="top" prefix="custom-classname"
+          visible={this.state.open}
+        >
+          <div>Opened by default</div>
+        </Balloon>
+      </div>
+    );
+  }
+}
 export default (
   <div>
-    <div className="balloon-example no-mobile">
-    </div>
+    <div className="balloon-example no-mobile" />
     <div className="balloon-example">
       <Balloon trigger={exampleOneTrigger}>
-        <div>
-          The position of the balloon, as its width, can be styled by the context.
-        </div>
+        <div>The position of the balloon, as its width, can be styled by the context.</div>
       </Balloon>
     </div>
     <div className="balloon-example right">
       <Balloon balloonPosition="top" showOnHover trigger={exampleTwoTrigger}>
-        <div>
-          The position of the balloon, as its width, can be styled by the context.
-        </div>
+        <div>The position of the balloon, as its width, can be styled by the context.</div>
       </Balloon>
     </div>
     <div className="balloon-example right">
-      <Balloon
-        unstyled
-        balloonPosition="top"
-        prefix="custom-classname"
+      <Balloon unstyled balloonPosition="top" prefix="custom-classname"
         trigger={exampleThreeTrigger}
       >
-        <div>
-          The position of the balloon, as its width, can be styled by the context.
-        </div>
+        <div>The position of the balloon, as its width, can be styled by the context.</div>
       </Balloon>
     </div>
-    <div className="balloon-example no-mobile">
+    <div className="balloon-example right">
+      <ExternalControlledBalloon open />
     </div>
+    <div className="balloon-example no-mobile" />
   </div>
 );
