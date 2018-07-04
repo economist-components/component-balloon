@@ -17,6 +17,7 @@ class Balloon extends React.Component {
     trigger: PropTypes.element,
     visible: PropTypes.bool,
     open: PropTypes.bool,
+    closeOnClick: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -27,6 +28,7 @@ class Balloon extends React.Component {
     prefix: 'balloon',
     showOnHoverDelay: 100,
     visible: false,
+    closeOnClick: false,
   };
 
   constructor(props) {
@@ -40,6 +42,7 @@ class Balloon extends React.Component {
         onMouseOut: this.changeVisibility.bind(this, 'not-visible'),
       } : {};
     this.toggleState = this.toggleState.bind(this);
+    this.changeVisibility = this.changeVisibility.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -115,7 +118,7 @@ class Balloon extends React.Component {
   }
 
   render() {
-    const { trigger, className } = this.props;
+    const { trigger, className, closeOnClick } = this.props;
     let triggerLink = null;
     if (trigger) {
       const { type: TriggerLink, className: triggerClassName, props: triggerProps } = trigger;
@@ -143,6 +146,7 @@ class Balloon extends React.Component {
       [`${ prefix }shadow`]: this.props.shadow,
     });
     let triangleElement = null;
+    const onClick = () => closeOnClick && this.changeVisibility();
     if (triangleShouldDisplay) {
       triangleElement = <div className="balloon__triangle" style={{ pointerEvents: 'none' }} />;
     }
@@ -158,6 +162,7 @@ class Balloon extends React.Component {
           style={this.state.position}
           {...this.hoverHandlers}
           tabIndex="0"
+          onClick={onClick}
         >
           {this.props.children}
         </div>
