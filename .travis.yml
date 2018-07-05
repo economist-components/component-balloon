@@ -6,6 +6,20 @@ cache:
 node_js:
   - '6'
   - stable
-after_success: >-
-  travis-after-all && npm run semantic-release && npm run pages -- --repo
-  https://${GH_TOKEN}@github.com/economist-components/component-balloon.git
+
+stages:
+  - name: test
+  - name: release
+    if: >-
+      (branch = master) AND
+      (repo = economist-components/component-balloon) AND
+      (env(NPM_TOKEN) IS present) AND
+      (NOT (type IN (push, pull_request)))
+
+jobs:
+  include:
+    - stage: release
+      node_js: stable
+      script: >-
+        npm run semantic-release && npm run pages -- --repo
+        https://${GH_TOKEN}@github.com/economist-components/component-balloon.git
