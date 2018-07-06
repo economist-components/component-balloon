@@ -14,7 +14,7 @@ stages:
       (branch = master) AND
       (repo = economist-components/component-balloon) AND
       (env(NPM_TOKEN) IS present) AND
-      (NOT (type IN (push, pull_request)))
+      (NOT (type IN (pull_request)))
 
 jobs:
   include:
